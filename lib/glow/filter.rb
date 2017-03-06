@@ -4,7 +4,11 @@ module Glow
   module Filter
     extend ActiveSupport::Concern
     included do
-      after_filter    :flash_to_headers
+      if respond_to?(:after_action)
+        after_action :flash_to_headers
+      else
+        after_filter :flash_to_headers
+      end
       class_attribute :glow_request_formats
     end
 
